@@ -9,41 +9,21 @@
 namespace App\Http\Controllers;
 
 
+/**
+ * トレイトを使ってモデルの呼び出しやバリデーション、エラー処理などを共通化していくことが可能
+ * @package App\Http\Controllers
+ */
 trait UserControllerTrait {
 
-    protected function getUsernameInput(){
-        $username = Input::get("username");
-
-        // バリデーションなどを行う。
-
-        return $username;
-
+    protected function validateUsernameAndPassword($username,$password){
+        // ....
     }
 
-    public function getLogin(){
-        return view("sample/login");
+    protected function checkLogin($username,$password){
+        // ....
     }
 
-    public function postLogin(){
-        $username = Input::get("username");
-        $password = Input::get("password");
-        $result = DB::select("SELECT * FROM users where name = :name ",[
-            "name" => $username
-        ]);
-
-        if($result && Hash::check($password, $result[0]->password)){
-            return redirect("dashboard");
-        }else{
-            session()->flash("error","ユーザ名またはログインIDが異なります。");
-            return redirect("login");
-        }
+    protected function setErrorMessage($message){
+        // ....
     }
-
-    public function getDashboard(){
-        return view('sample/dashboard',[
-            "message" => "Hello World"
-        ]);
-    }
-
-
 }
